@@ -46,6 +46,7 @@ void	test_ft_split(int verbose);
 void	test_ft_strmapi(int verbose);
 void	test_ft_striteri(int verbose);
 void	test_ft_strdup(int verbose);
+void	test_ft_lstnew(int verbose);
 
 void	print_string_diff(const char *expected, const char *result)
 {
@@ -168,6 +169,7 @@ int	main(int argc, char* argv[])
 	test_ft_strmapi(v);
 	test_ft_striteri(v);
 	test_ft_strdup(v);
+	test_ft_lstnew(v);
 	printf("\nAll tests completed.\n");
 	return (0);
 }

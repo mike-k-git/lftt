@@ -47,7 +47,19 @@ SRCS = $(SRC_DIR)/ft_atoi.c \
 	   $(SRC_DIR)/ft_tolower.c \
 	   $(SRC_DIR)/ft_toupper.c
 
+SRCS_BONUS = $(SRC_DIR)/ft_lstadd_back.c \
+			 $(SRC_DIR)/ft_lstadd_front.c \
+			 $(SRC_DIR)/ft_lstclear.c \
+			 $(SRC_DIR)/ft_lstdelone.c \
+			 $(SRC_DIR)/ft_lstiter.c \
+			 $(SRC_DIR)/ft_lstlast.c \
+			 $(SRC_DIR)/ft_lstmap.c \
+			 $(SRC_DIR)/ft_lstnew.c \
+			 $(SRC_DIR)/ft_lstsize.c
+
 OBJS = $(SRCS:.c=.o)
+
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all: $(TARGET_LIBRARY)
 
@@ -55,13 +67,18 @@ $(TARGET_LIBRARY): $(OBJS)
 	@echo "Creating library $(COLOR_BLUE_BOLD)$@$(COLOR_RESET)"
 	@ar rcs $@ $^
 
+bonus: $(TARGET_LIBRARY) $(OBJS_BONUS)
+	@echo "Adding $(COLOR_BLUE_BOLD)bonus$(COLOR_RESET) to library"
+	@ar rs $< $(OBJS_BONUS)
+	@touch bonus
+
 %.o: %.c
 	@echo "Compiling $(COLOR_CYAN_BOLD)$<$(COLOR_RESET)"
 	@$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
 	@echo "$(COLOR_YELLOW)Cleaning object files$(COLOR_RESET)"
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(OBJS_BONUS) bonus
 
 fclean: clean
 	@echo "$(COLOR_YELLOW)Removing the library$(COLOR_RESET)"
@@ -104,7 +121,8 @@ SRCS_TEST := $(TEST_DIR)/main.c \
 			 $(TEST_DIR)/test_ft_split.c \
 			 $(TEST_DIR)/test_ft_strmapi.c \
 			 $(TEST_DIR)/test_ft_striteri.c \
-			 $(TEST_DIR)/test_ft_strdup.c
+			 $(TEST_DIR)/test_ft_strdup.c \
+			 $(TEST_DIR)/test_ft_lstnew.c
 
 OBJS_TEST := $(SRCS_TEST:.c=.o)
 UNAME_S := $(shell uname -s)
@@ -118,8 +136,8 @@ $(TEST_DIR)/%.o: $(TEST_DIR)/%.c
 	@echo "Compiling $(COLOR_CYAN_BOLD)$<$(COLOR_RESET)"
 	@$(CC) -c $(CFLAGS) $< -o $@
 
-test_run: $(OBJS_TEST)
-	@$(CC) $(CFLAGS) -g $(OBJS_TEST) $(OBJS) $(LDFLAGS) -o ${TEST_BIN}
+test_run: bonus $(OBJS_TEST)
+	@$(CC) $(CFLAGS) -g $(OBJS_TEST) $(OBJS) $(OBJS_BONUS) $(LDFLAGS) -o ${TEST_BIN}
 	./${TEST_BIN} $(VERBOSE)
 
 test_clean: fclean
