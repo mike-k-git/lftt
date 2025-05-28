@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdint.h>
 #include "../libft.h"
 
 #ifdef __linux__
@@ -34,8 +35,11 @@
 # define COLOR_CYAN		"\x1b[36m"
 # define COLOR_BOLD		"\x1b[1m"
 
-# define ICON_PASS	"🚀"
-# define ICON_FAIL	"🚧"
+//# define ICON_PASS	"🚀"
+//# define ICON_FAIL	"🚧"
+
+# define ICON_PASS "OK"
+# define ICON_FAIL "KO"
 
 # define PRINT_TEST_NAME(name) \
 	printf("\n" COLOR_BOLD "%s" COLOR_RESET "\n", name)
